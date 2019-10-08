@@ -32,4 +32,10 @@ describe('api', () => {
         })
       });
   });
+
+  describe('Test GET /api/v1/foods/:id', () => {
+    test('should return food by id requested', () => {
+      
+    });
+  });
 });
