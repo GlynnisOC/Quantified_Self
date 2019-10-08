@@ -35,7 +35,21 @@ describe('api', () => {
 
   describe('Test GET /api/v1/foods/:id', () => {
     test('should return food by id requested', () => {
-      
+      return foods.bulkCreate([
+        { name: "Banana", calories: 150 },
+        { name: "Yogurt", calories: 550 },
+        { name: "Apple", calories: 220 }
+      ]).then(show => {
+        return request(app).get("/api/v1/foods/1").then(response => {
+          expect(response.status).toBe(200)
+          expect(response.body['id']).toBe(1)
+          expect(response.body['name']).toBe("Banana")
+        })
+      }).then(show => {
+        return request(app).get("/api/v1/foods/26").then(response => {
+          expect(response.status).toBe(404)
+        })
+      })
     });
   });
 });
