@@ -52,4 +52,30 @@ describe('api', () => {
       })
     });
   });
+
+  describe('Test POST /api/v1/foods', () => {
+    test('should create a new food when given name and calories in params', () => {
+      const food = {
+        name: "Cheetos",
+        calories: 500
+      }
+      return request(app).post("/api/v1/foods").send(food).then(response => {
+        expect(response.status).toBe(201)
+        expect(response.body.message).toBe("Cheetos was successfully created")
+        return foods.findOne({order: [['createdAt', 'DESC']]}).then(newFood => {
+          expect(newFood.name).toBe("Cheetos")
+          expect(newFood.calories).toBe(500)
+        })
+      })
+    })
+    test('should return 400 if name or calories are not given', () => {
+      const food = {
+        name: "Cheetos"
+      }
+      return request(app).post("/api/v1/foods").send(food).then(response => {
+        expect(response.status).toBe(400)
+        expect(response.body.message).toBe("Name and calories are required")
+      })
+    })
+  })
 });
