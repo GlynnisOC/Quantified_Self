@@ -1,8 +1,13 @@
-dist: xenial
 language: node_js
+
+node_js:
+  - "node"
+
 services:
   - postgresql
+
 addons:
   postgresql: "10"
+
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
