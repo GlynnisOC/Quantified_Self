@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.prod.js  --colors",
-    "node_up": "node ./bin/www",
-    "web_up": "webpack-dev-server --open --config webpack/webpack.config.dev.js"
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
