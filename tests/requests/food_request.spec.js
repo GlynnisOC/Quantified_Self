@@ -78,4 +78,21 @@ describe('api', () => {
       })
     })
   })
+
+  describe('Test DELETE /api/v1/foods/:id', () => {
+    test('should delete specific food when given id', () => {
+      return foods.bulkCreate([
+        { name: "Banana", calories: 150 },
+        { name: "Yogurt", calories: 550 },
+        { name: "Apple", calories: 220 }
+      ]).then(delete => {
+        return request(app).delete("/api/v1/foods/1").then(response => {
+          expect(response.status).toBe(204)
+      })
+    }).then(delete => {
+      return request(app).delete("/api/v1/foods/46").then(response => {
+        expect(response.status).toBe(404)
+      })
+    })
+  })
 });
