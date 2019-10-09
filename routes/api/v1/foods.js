@@ -29,8 +29,8 @@ router.post('/', function(req, res, next) {
   return foods.create({
     name: req.body.name,
     calories: req.body.calories
-  }).then(response => {
-    res.status(201).send({message: `${req.body.name} was successfully created`})
+  }).then(food => {
+    res.status(201).send(food)
   }).catch(error => {
     res.status(400).send({message: "Name and calories are required"})
   })
