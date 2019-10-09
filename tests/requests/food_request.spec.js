@@ -61,7 +61,8 @@ describe('api', () => {
       }
       return request(app).post("/api/v1/foods").send(food).then(response => {
         expect(response.status).toBe(201)
-        expect(response.body.message).toBe("Cheetos was successfully created")
+        expect(response.body.name).toBe("Cheetos")
+        expect(response.body.calories).toBe(500)
         return foods.findOne({order: [['createdAt', 'DESC']]}).then(newFood => {
           expect(newFood.name).toBe("Cheetos")
           expect(newFood.calories).toBe(500)
@@ -90,4 +91,39 @@ describe('api', () => {
       })
     })
   })
-})
+
+  describe('Test PATCH /api/v1/foods/:id', () => {
+    test('should return updated food item', () => {
+      const food = {
+        name: "Mint",
+        calories: 14
+      }
+      return foods.create({name: "Mint", calories: 10})
+      .then(newFood => {
+        return request(app).patch(`/api/v1/foods/${newFood.id}`).send(food)
+        .then(response => {
+          expect(response.status).toBe(200)
+          expect(response.body['id']).toBe(newFood.id)
+          expect(response.body['name']).toBe("Mint")
+          expect(response.body['calories']).toBe(14)
+        })
+      })
+
+    })
+    test('should return 404 if food doesnt exist', () => {
+      const food = {
+        name: "Mint",
+        calories: 14
+      }
+      return foods.create({name: "Mint", calories: 10})
+      .then(newFood => {
+        return request(app).patch('/api/v1/foods/2313').send(food)
+        .then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe("Food ID not found")
+        })
+      })
+
+    })
+  })
+});
