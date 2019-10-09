@@ -85,14 +85,15 @@ describe('api', () => {
         { name: "Banana", calories: 150 },
         { name: "Yogurt", calories: 550 },
         { name: "Apple", calories: 220 }
-      ]).then(delete => {
+      ]).then(food => {
         return request(app).delete("/api/v1/foods/1").then(response => {
           expect(response.status).toBe(204)
       })
-    }).then(delete => {
+    }).then(food => {
       return request(app).delete("/api/v1/foods/46").then(response => {
         expect(response.status).toBe(404)
       })
     })
   })
-});
+})
+})

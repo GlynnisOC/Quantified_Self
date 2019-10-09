@@ -36,4 +36,19 @@ router.post('/', function(req, res, next) {
   })
 })
 
+router.delete("/:id", function(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  foods.destroy({
+    where: {id: req.params.id},
+  })
+  .then(response => {
+    console.log(response.body, 'here is the body')
+    if (response) {
+      res.status(204)
+    } else {
+      res.status(404).send({message: "Food cannot be found"})
+    }
+  })
+})
+
 module.exports = router;
