@@ -79,21 +79,15 @@ describe('api', () => {
     })
   })
 
-  describe('Test DELETE /api/v1/foods/:id', () => {
-    test('should delete specific food when given id', () => {
-      return foods.bulkCreate([
-        { name: "Banana", calories: 150 },
-        { name: "Yogurt", calories: 550 },
-        { name: "Apple", calories: 220 }
-      ]).then(food => {
-        return request(app).delete("/api/v1/foods/1").then(response => {
+  describe("Test DELETE api/v1/foods/:id", () => {
+    test('should return 204 after deleting food found by ID', () => {
+      return foods.create({name: "Chocolate", calories: 2})
+      .then(food => {
+        return request(app).delete(`/api/v1/foods/${food.id}`)
+        .then(response => {
           expect(response.status).toBe(204)
-      })
-    }).then(food => {
-      return request(app).delete("/api/v1/foods/46").then(response => {
-        expect(response.status).toBe(404)
+        })
       })
     })
   })
-})
 })
