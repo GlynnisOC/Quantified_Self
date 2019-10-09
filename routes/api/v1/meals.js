@@ -6,19 +6,12 @@ router.get("/", function(req, res, next) {
   res.setHeader("Content-Type", "application/json");
   return meals.findAll({
     attributes: ['id', 'name'],
-    include: [{
-      model: Food,
-      as: 'foods',
-      required: false,
-      attributes: ['id', 'name', 'calories'],
-      through: {
-        model: FoodMeal,
-        as: 'foodMeals'
-      }
-    }]
-  }).then(response => {
-    // console.log(response.body)
-    res.status(200).send(response)
+    include: 'foods'
+  }).then(results => {
+    res.status(200).send(results)
+  })
+  .catch(error => {
+    console.log(error)
   })
 });
 
