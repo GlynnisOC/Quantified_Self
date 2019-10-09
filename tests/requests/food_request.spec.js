@@ -80,6 +80,18 @@ describe('api', () => {
     })
   })
 
+  describe("Test DELETE api/v1/foods/:id", () => {
+    test('should return 204 after deleting food found by ID', () => {
+      return foods.create({name: "Chocolate", calories: 2})
+      .then(food => {
+        return request(app).delete(`/api/v1/foods/${food.id}`)
+        .then(response => {
+          expect(response.status).toBe(204)
+        })
+      })
+    })
+  })
+
   describe('Test PATCH /api/v1/foods/:id', () => {
     test('should return updated food item', () => {
       const food = {

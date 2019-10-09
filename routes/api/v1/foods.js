@@ -9,6 +9,19 @@ router.get('/', function(req, res, next) {
   })
 })
 
+router.delete("/:id", function(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  foods.destroy({
+    where: {id: req.params.id}
+  })
+  .then(response => {
+    res.status(204).send()
+  })
+  .catch(error => {
+    res.status(404).send({message: "Food cannot be found"})
+  })
+})
+
 router.get("/:id", function(req, res, next) {
   res.setHeader("Content-Type", "application/json");
   return foods.findOne({
