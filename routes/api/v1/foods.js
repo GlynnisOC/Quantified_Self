@@ -36,4 +36,27 @@ router.post('/', function(req, res, next) {
   })
 })
 
+router.patch('/:id', function(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  foods.update({
+    name: req.body.name,
+    calories: req.body.calories
+  }, {
+    where: { id: req.params.id },
+    returning: true,
+    plain: true
+  })
+  .then(results => {
+    item = {
+      id: results[1].dataValues.id,
+      name: results[1].dataValues.name,
+      calories: results[1].dataValues.calories
+    }
+    res.status(200).send(item)
+  })
+  .catch(error => {
+    res.status(404).send({message: "Food ID not found"})
+  })
+})
+
 module.exports = router;
