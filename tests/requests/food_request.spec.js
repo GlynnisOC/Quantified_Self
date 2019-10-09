@@ -61,7 +61,8 @@ describe('api', () => {
       }
       return request(app).post("/api/v1/foods").send(food).then(response => {
         expect(response.status).toBe(201)
-        expect(response.body.message).toBe("Cheetos was successfully created")
+        expect(response.body.name).toBe("Cheetos")
+        expect(response.body.calories).toBe(500)
         return foods.findOne({order: [['createdAt', 'DESC']]}).then(newFood => {
           expect(newFood.name).toBe("Cheetos")
           expect(newFood.calories).toBe(500)
