@@ -44,7 +44,7 @@ router.post('/:meal_id/foods/:food_id', function(req, res, next) {
   })
 })    
 
-router.get("/:id", function(req, res, next) {
+router.get("/:id/foods", function(req, res, next) {
   res.setHeader("Content-Type", "application/json");
   return meals.findByPk((req.params.id), {
     attributes: ['id', 'name'],
@@ -64,7 +64,7 @@ router.get("/:id", function(req, res, next) {
     }
   })
   .catch(error => {
-    res.status(500).send({error})
+    res.status(500).send({message: "Error"})
   })
 })
 

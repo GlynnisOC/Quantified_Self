@@ -75,7 +75,7 @@ describe('api', () => {
       ]
       return meals.create({name: "Snack"}).then(async meal1 => {
         await meal1.addFoods(items)
-        return request(app).get(`/api/v1/meals/${meal1.id}`).then(response => {
+        return request(app).get(`/api/v1/meals/${meal1.id}/foods`).then(response => {
           expect(response.status).toBe(200)
           expect(response.body.foods[0].name).toBe("Chocolate")
           expect(response.body.foods[0].calories).toBe(250)
