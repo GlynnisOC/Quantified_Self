@@ -34,7 +34,36 @@ describe('api', () => {
         })
       })
     })
-  });
+  })
+
+  describe('Test POST /api/v1/meals/:meal_id/foods/:id', () => {
+    test('adds the food with :id to the meal with :meal_id', async () => {
+      await meals.create({name: "Breakfast"}).then(async meal => {
+        await foods.create({name: "Egg", calories: 78}).then(food => {
+          return request(app).post(`/api/v1/meals/${meal.id}/foods/${food.id}`).then(response => {
+            expect(response.status).toBe(201)
+            expect(response.body.message).toBe("Successfully added Egg to Breakfast")
+          })
+        })
+      })
+    })
+    test('trys to add food to a meal that doesnt exist', () => {
+      foods.create({name: "Egg", calories: 78}).then(food => {
+        return request(app).post(`/api/v1/meals/5213/foods/${food.id}`).then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe("Meal ID does not exist")
+        })
+      })
+    })
+    test('trys to add a food that does not exist to a meal', () => {
+      meals.create({name: "Breakfast"}).then(meal => {
+        return request(app).post(`/api/v1/meals/${meal.id}/foods/3213`).then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe("Food ID does not exist")
+        })
+      })
+    })
+  })
 
 
   describe('Test GET /api/v1/meals/:meal_id/foods', () => {
