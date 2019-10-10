@@ -2,6 +2,7 @@ var express = require ('express')
 var router = express.Router()
 const meals = require("../../../models").Meal
 const foods = require("../../../models").Food
+const FoodMeal = require("../../../models").FoodMeal
 const models = require("../../../models")
 
 router.get("/", function(req, res, next) {
@@ -42,7 +43,7 @@ router.post('/:meal_id/foods/:food_id', function(req, res, next) {
   .catch(error => {
     res.status(404).send({message: "Meal ID does not exist"})
   })
-})    
+})
 
 router.get("/:id/foods", function(req, res, next) {
   res.setHeader("Content-Type", "application/json");
@@ -65,6 +66,22 @@ router.get("/:id/foods", function(req, res, next) {
   })
   .catch(error => {
     res.status(500).send({message: "Error"})
+  })
+})
+
+router.delete("/:meal_id/foods/:id", function(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  FoodMeal.findOne({
+    where: { foodId: req.params.id, mealId: req.params.meal_id }
+  })
+  .then(foodMeal => {
+    foodMeal.destroy()
+  })
+  .then(response => {
+    res.status(204).send()
+  })
+  .catch(error => {
+    res.status(404).send({message: "Food or meal cannot be found"})
   })
 })
 

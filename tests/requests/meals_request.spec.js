@@ -87,4 +87,26 @@ describe('api', () => {
       })
     })
   });
+
+  describe('Test DELETE /api/v1/meals/:meal_id/foods/:id', () => {
+    test('should delete a food with the id from the meal with the meal_id', async () => {
+      await meals.create({name: "Breakfast"}).then( async meal => {
+        await foods.create({name: "Egg", calories: 78}).then( async food => {
+          await meal.addFood(food)
+          return request(app).delete(`/api/v1/meals/${meal.id}/foods/${food.id}`).then(response => {
+            expect(response.status).toBe(204)
+          })
+        })
+      })
+    })
+    test('should return 404 if food or meal not found', async () => {
+      await meals.create({name: "Breakfast"}).then( async meal => {
+        await foods.create({name: "Egg", calories: 78}).then( async food => {
+          return request(app).delete(`/api/v1/meals/${meal.id}/foods/${food.id}`).then(response => {
+            expect(response.status).toBe(404)
+          })
+        })
+      })
+    })
+  })
 });
