@@ -16,10 +16,11 @@
     "operatorsAliases": false
   },
   "production": {
+    "use_env_variable": "DATABASE_URL",
     "username": "",
     "password": null,
     "database": "quantified_self_production",
-    "host": "127.0.0.1",
+    "host": "https://damp-forest-79731.herokuapp.com/",
     "dialect": "postgres",
     "operatorsAliases": false
   }
